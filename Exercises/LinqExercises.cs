@@ -212,7 +212,14 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task11_JoinStudentsWithEnrollments()
     {
-        throw NotImplemented(nameof(Task11_JoinStudentsWithEnrollments));
+        
+        return UniversityData.Students
+            .Join(
+                UniversityData.Enrollments,
+                student => student.Id,
+                enrollment => enrollment.StudentId,
+                (student, enrollment) => $"{student.FirstName} {student.LastName} | {enrollment.EnrollmentDate:yyyy-MM-dd}"
+            );
     }
 
     /// <summary>
