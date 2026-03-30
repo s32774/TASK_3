@@ -393,9 +393,18 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Challenge02_AprilCoursesWithoutFinalGrades()
     {
-        throw NotImplemented(nameof(Challenge02_AprilCoursesWithoutFinalGrades));
-    }
+        return UniversityData.Courses
+            .Where(c=>c.StartDate.Month == 4 && c.StartDate.Year ==2026)
+            .Where(c =>
+            {
+                var enrollments = UniversityData.Enrollments
+                    .Where(e => e.CourseId == c.Id)
+                    .ToList();
+                return enrollments.Any() && enrollments.All(e => !e.FinalGrade.HasValue);
 
+            })
+            .Select(c => c.Title);
+    }
     /// <summary>
     /// Challenge:
     /// Calculate the average final grade for every lecturer across all of their courses.
