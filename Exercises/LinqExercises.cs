@@ -67,7 +67,18 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task04_FirstAnalyticsCourse()
     {
-        throw NotImplemented(nameof(Task04_FirstAnalyticsCourse));
+        var course = UniversityData.Courses
+            .FirstOrDefault(c => c.Category == "Analytics");
+
+        if (course == null)
+        {
+            return new List<string> { "No Analytics course found." };
+        }
+
+        return new List<string>
+        {
+            $"{course.Title} | start: {course.StartDate:yyyy-MM-dd}"
+        };
     }
 
     /// <summary>
