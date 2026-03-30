@@ -420,7 +420,28 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Challenge03_LecturersAndAverageGradeAcrossTheirCourses()
     {
-        throw NotImplemented(nameof(Challenge03_LecturersAndAverageGradeAcrossTheirCourses));
+        return UniversityData.Lecturers
+            .GroupJoin(
+                UniversityData.Courses,
+                l => l.Id,
+                c => c.LecturerId,
+                (lecturer, courses) => new
+                {
+                    Lecturer = $"{lecturer.FirstName} {lecturer.LastName}",
+                    CourseIds = courses.Select(c => c.Id)
+                }
+            )
+            .Select(x => new
+            {
+                
+                
+                x.Lecturer,
+                Grades = UniversityData.Enrollments
+                    .Where(e => x.CourseIds.Contains(e.CourseId) && e.FinalGrade != null)
+                    .Select(e => e.FinalGrade!.Value)
+            })
+            .Where(x => x.Grades.Any())
+            .Select(x => $"{x.Lecturer} | Avg grade: {x.Grades.Average():F2}");
     }
 
     /// <summary>
