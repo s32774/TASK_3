@@ -341,9 +341,18 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task16_HighestGradePerStudent()
     {
-        throw NotImplemented(nameof(Task16_HighestGradePerStudent));
+        return UniversityData.Enrollments
+            .Where(e => e.FinalGrade != null)
+            .Join(
+                
+                UniversityData.Students,
+                e => e.StudentId,
+                s => s.Id,
+                (e, s) => new { s.FirstName, s.LastName, e.FinalGrade }
+            )
+            .GroupBy(x => new { x.FirstName, x.LastName })
+            .Select(g => $"{g.Key.FirstName} {g.Key.LastName} | Max grade: {g.Max(x => x.FinalGrade)}");
     }
-
     /// <summary>
     /// Challenge:
     /// Find students who have more than one active enrollment.
