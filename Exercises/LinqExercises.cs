@@ -235,15 +235,15 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task12_StudentCoursePairs()
     {
-        return UniversityData.Enrollments
+        return UniversityData.Students
             .SelectMany(
-                enrollment => UniversityData.Students
-                    .Where(student => student.Id == enrollment.StudentId)
+                student => UniversityData.Enrollments
+                    .Where(e => e.StudentId == student.Id)
                     .Join(
-                        UniversityData.Courses.Where(course => course.Id == enrollment.CourseId),
-                        student => enrollment.CourseId,
-                        course => course.Id,
-                        (student, course) => $"{student.FirstName} {student.LastName} | {course.Title}"
+                        UniversityData.Courses,
+                        e => e.CourseId,
+                        c => c.Id,
+                        (e, c) => $"{student.FirstName} {student.LastName} | {c.Title}"
                     )
             );
     }
