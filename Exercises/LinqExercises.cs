@@ -368,7 +368,15 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Challenge01_StudentsWithMoreThanOneActiveCourse()
     {
-        throw NotImplemented(nameof(Challenge01_StudentsWithMoreThanOneActiveCourse));
+        return UniversityData.Enrollments.Where(e => e.IsActive)
+            .GroupBy(e => e.StudentId)
+            .Where(g => g.Count() > 1)
+            .Select(g =>
+            {
+                var student = UniversityData.Students.First(s => s.Id == g.Key);
+                var name = student is null ? $"Student: {g.Key}" : $"{student.FirstName} {student.LastName}";
+                return $"{name} | {g.Count()}";
+            });
     }
 
     /// <summary>
