@@ -403,7 +403,8 @@ public sealed class LinqExercises
                 return enrollments.Any() && enrollments.All(e => !e.FinalGrade.HasValue);
 
             })
-            .Select(c => c.Title);
+            .Select(c => c.Title); /// the result is No results to display.
+
     }
     /// <summary>
     /// Challenge:
