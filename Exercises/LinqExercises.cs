@@ -136,9 +136,14 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task07_CountActiveEnrollments()
     {
-        throw NotImplemented(nameof(Task07_CountActiveEnrollments));
-    }
+        var activeEnrollmentCount = UniversityData.Enrollments
+            .Count(e => e.IsActive);
 
+        return new List<string>
+        {
+            $"Active enrollments count: {activeEnrollmentCount}"
+        };
+    }
     /// <summary>
     /// Task:
     /// Return a sorted list of distinct student cities.
