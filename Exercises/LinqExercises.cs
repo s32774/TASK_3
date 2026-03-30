@@ -285,8 +285,18 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task14_AverageGradePerCourse()
     {
-        throw NotImplemented(nameof(Task14_AverageGradePerCourse));
+        return UniversityData.Enrollments
+            .Where(e => e.FinalGrade != null)
+            .Join(
+                UniversityData.Courses,
+                e => e.CourseId,
+                c => c.Id,
+                (e, c) => new { c.Title, e.FinalGrade }
+            )
+            .GroupBy(x => x.Title)
+            .Select(g => $"{g.Key} | Avg grade: {g.Average(x => x.FinalGrade):F2}");
     }
+
 
     /// <summary>
     /// Task:
