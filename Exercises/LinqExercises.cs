@@ -311,7 +311,20 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task15_LecturersAndCourseCounts()
     {
-        throw NotImplemented(nameof(Task15_LecturersAndCourseCounts));
+        return UniversityData.Lecturers
+            .GroupJoin(
+                UniversityData.Courses,
+                l => l.Id,
+                c => c.LecturerId,
+                (l, courses) => new
+                {
+                    
+                    Lecturer = $"{l.FirstName} {l.LastName}",
+                    Count = courses.Count()
+                    
+                }
+            )
+            .Select(x => $"{x.Lecturer} | Courses: {x.Count}");
     }
 
     /// <summary>
