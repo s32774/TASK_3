@@ -116,7 +116,13 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task06_DoAllLecturersHaveDepartment()
     {
-        throw NotImplemented(nameof(Task06_DoAllLecturersHaveDepartment));
+        var allLecturersHaveDepartment = UniversityData.Lecturers
+            .All(l => !string.IsNullOrWhiteSpace(l.Department));
+
+        return new List<string>
+        {
+            $"All lecturers have a department: {allLecturersHaveDepartment}"
+        };
     }
 
     /// <summary>
